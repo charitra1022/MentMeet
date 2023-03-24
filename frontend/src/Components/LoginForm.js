@@ -5,7 +5,7 @@ export default function LoginForm() {
     <Form className="p-5">
       <Form.Group className="mb-3" controlId="email-input">
         <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
+        <Form.Control type="email" placeholder="Enter email" className="shadow-none" />
         <Form.Text className="text-muted">
           We'll never share your email with anyone else.
         </Form.Text>
@@ -13,7 +13,7 @@ export default function LoginForm() {
 
       <Form.Group className="mb-3" controlId="password-input">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" />
+        <Form.Control type="password" placeholder="Password" className="shadow-none" />
       </Form.Group>
       
       {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
