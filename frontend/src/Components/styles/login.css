@@ -1,0 +1,44 @@
+.login-container {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 0.8rem;
+}
+
+@media (min-width: 576px) {
+  .login-container {
+    max-width: 70vw;
+  }
+}
+@media (min-width: 768px) {
+  .login-container {
+    max-width: 50vw;
+  }
+}
+@media (min-width: 992px) {
+  .login-container {
+    max-width: 40vw;
+  }
+}
+
+.section-button {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.submit-btn {
+  background-color: #f2d388;
+}
+
+.submit-btn {
+  color: white;
+  margin-left: 1rem;
+  border-radius: 15px;
+  background-color: #874c62;
+  border: none;
+  height: 2rem;
+  width: 7rem;
+}
+.submit-btn:hover {
+  background-color: #c98474;
+}
