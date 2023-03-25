@@ -38,7 +38,7 @@ export default function Dashboard() {
     setDataLoading(true);
     // fetch mentor details
     axios
-      .get("http://localhost:5000/check-mentor", {
+      .get("http://localhost:5000/get-mentor-details", {
         headers: {
           "auth-token": token,
         },
@@ -117,7 +117,7 @@ export default function Dashboard() {
                   getStarComponent(userData.rating)}
               </span>
               <br />
-              <button onClick={handleEditButton}>Edit</button>
+              <button className="editbtn" onClick={handleEditButton}>Edit Profile</button>
             </div>
           </div>
         </div>

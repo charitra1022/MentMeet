@@ -44,7 +44,7 @@ export default function UpdateForm() {
     setDataLoading(true);
     // fetch mentor details
     axios
-      .get("http://localhost:5000/check-mentor", {
+      .get("http://localhost:5000/get-mentor-details", {
         headers: { "auth-token": token },
       })
       .then((res) => {
