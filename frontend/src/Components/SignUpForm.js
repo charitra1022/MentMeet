@@ -58,7 +58,7 @@ export default function SignUpForm() {
         if (data["success"]) {
           setErrorStatus(false); // hide error
           window.localStorage.setItem("authToken", data["authToken"]); // save authtoken
-          navigate("/dashboard");
+          navigate("/update");
         } else {
           setErrorStatus(true); // show error
           if (data["error"] !== undefined) setErrorMsg(data["error"]);
@@ -95,8 +95,6 @@ export default function SignUpForm() {
           placeholder="Enter Your Name"
           className="shadow-none"
           onChange={(event) => setName(event.target.value)}
-          onFocus={(event) => setName(event.target.value)}
-          defaultValue="Aman kumar"
         />
       </Form.Group>
 
@@ -107,8 +105,6 @@ export default function SignUpForm() {
           placeholder="Enter email"
           className="shadow-none"
           onChange={(event) => setEmail(event.target.value)}
-          onFocus={(event) => setEmail(event.target.value)}
-          defaultValue="aman@mentor.com"
         />
         <Form.Text className="text-muted">
           We'll never share your email with anyone else.
@@ -124,8 +120,6 @@ export default function SignUpForm() {
           className="shadow-none"
           placeholder="Enter Phone Number"
           onChange={(event) => setPhone(event.target.value)}
-          onFocus={(event) => setPhone(event.target.value)}
-          defaultValue="3214569874"
         />
       </Form.Group>
 
@@ -138,8 +132,6 @@ export default function SignUpForm() {
               placeholder="Enter Your State"
               className="shadow-none"
               onChange={(event) => setUserState(event.target.value)}
-              onFocus={(event) => setUserState(event.target.value)}
-              defaultValue="jharkhand"
             />
           </Form.Group>
         </Col>
@@ -152,8 +144,6 @@ export default function SignUpForm() {
               placeholder="Enter Your City"
               className="shadow-none"
               onChange={(event) => setCity(event.target.value)}
-              onFocus={(event) => setCity(event.target.value)}
-              defaultValue="jamshedpur"
             />
           </Form.Group>
         </Col>
@@ -166,7 +156,6 @@ export default function SignUpForm() {
           placeholder="Enter Password"
           className="shadow-none"
           onChange={(event) => setPassword(event.target.value)}
-          onFocus={(event) => setPassword(event.target.value)}
         />
       </Form.Group>
 
@@ -177,7 +166,6 @@ export default function SignUpForm() {
           placeholder="Confirm Password"
           className="shadow-none"
           onChange={(event) => setConfirmPassword(event.target.value)}
-          onFocus={(event) => setConfirmPassword(event.target.value)}
         />
       </Form.Group>
 
