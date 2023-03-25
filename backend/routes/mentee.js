@@ -18,7 +18,6 @@ const AUTH_KEY = "MYNameISRahul@6820";
 const fetchmentee = require('../middleware/fetchMentee.js');
 
 
-
 // Create new mentee using POST: '/create-mentee' endpoint : No Login Required
 // Route 1: router.post(path, array of validators or without array both will work, callback(req, res));
 router.post('/create-mentee',
@@ -39,7 +38,7 @@ router.post('/create-mentee',
         // check for errors in input
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ success, errors: errors.array() });
+            return res.json({ success, errors: errors.array() });
         }
 
         try {
@@ -48,14 +47,14 @@ router.post('/create-mentee',
             //  Check if email is already registered or not
             let mentee = await Mentee.findOne({ email });
             if (mentee) {
-                return res.status(400).json({ success, error: "email already Registered" });
+                return res.json({ success, error: "email already Registered" });
             }
 
             // Encrypting the password
             const salt = await bcrypt.genSalt(10);
             const secPassword = await bcrypt.hash(password, salt);
 
-            // Third way of Creating user using asynchronous function
+            // Creating user using asynchronous function
             mentee = await Mentee.create({
                 name,
                 email,
@@ -110,7 +109,7 @@ router.post('/login-mentee',
         // check for errors in input
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ success, errors: errors.array() });
+            return res.json({ success, errors: errors.array() });
         }
 
         try {
@@ -118,12 +117,12 @@ router.post('/login-mentee',
             //  Check if email is already exists or not
             let mentee = await Mentee.findOne({ email });
             if (!mentee) {
-                return res.status(400).json({ success, error: "Please Login using correct Credentials" });
+                return res.json({ success, error: "Email not registered" });
             }
 
             const passwordMatch = await bcrypt.compare(password, mentee.password);
             if (!passwordMatch) {
-                return res.status(400).json({ success, error: "Please Login using correct Credentials" });
+                return res.json({ success, error: "Incorrect Password" });
             }
 
             // If Login Successful Generate new Token
@@ -154,7 +153,6 @@ router.post('/login-mentee',
     })
 
 
-
 // Check Token using POST: '/check-mentee' endpoint : Login Required
 // Route 3: router.post(path, array of validators or without array both will work, callback(req, res));
 router.get('/check-mentee', fetchmentee,
@@ -170,8 +168,6 @@ router.get('/check-mentee', fetchmentee,
     });
 
 
-
-
 // Check Token using POST: '/list-mentor' endpoint : Login Required
 // list mentors for the mentee for the skills he is requiring
 // Route 4: router.post(path, array of validators or without array both will work, callback(req, res));
@@ -182,9 +178,9 @@ router.get('/list-mentor', fetchmentee,
             const { id } = req.mentee
             const record = await Mentee.findById(id).select("skills");
             const skills = record.skills
-            
+
             const mentors = await Mentor.find({ skills: { $in: skills } }).select("-password -__v")
-            
+
             res.send({ success: true, msg: "fetching mentors successful", mentors })
 
         } catch (err) {
@@ -193,6 +189,25 @@ router.get('/list-mentor', fetchmentee,
         }
     });
 
+
+// Check Token using POST: '/get-mentee-skills' endpoint : Login Required
+// list mentee skills
+// Route 4: router.post(path, array of validators or without array both will work, callback(req, res));
+router.get('/get-mentee-skills', fetchmentee,
+    async (req, res) => {
+        let success = false
+        try {
+            const { id } = req.mentee
+            const record = await Mentee.findById(id).select("skills");
+            const skills = record.skills
+
+            res.send({ success: true, msg: "fetching mentee skills successful", skills })
+
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send({ success, msg: "Internal Server Error" });
+        }
+    });
 
 // Export the module
 module.exports = router;
