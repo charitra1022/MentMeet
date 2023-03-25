@@ -1,16 +1,22 @@
 import React from "react";
 import { Badge, Container } from "react-bootstrap";
+import NavbarComponent from "./Navbar";
 import profile from "./images/profile.png";
 import "./styles/Dashboard.css";
 
 export default function Dashboard() {
   return (
     <>
+      <NavbarComponent />
       <Container>
         <div>
           <div className="ProfileimgContainer text-center">
             {/* Profile image here */}
-            <img className="roundedCircle profileimg" src={profile} alt=""></img>
+            <img
+              className="roundedCircle profileimg"
+              src={profile}
+              alt=""
+            ></img>
           </div>
           <div className="DetailContainer text-center">
             {/* User name will come here */}

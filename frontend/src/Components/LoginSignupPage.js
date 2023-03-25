@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
+import NavbarComponent from "./Navbar";
 
 import "./styles/login.css";
 
@@ -30,34 +31,37 @@ export default function LoginSignupComponent() {
   };
 
   return (
-    <div className="login-page">
-      <Container className="login-container">
-        <Row>
-          <Col
-            id="login-section"
-            className="section-button px-5 py-2"
-            onClick={() => toggleMode("login")}
-          >
-            Login
-          </Col>
+    <>
+      <NavbarComponent />
+      <div className="login-page">
+        <Container className="login-container">
+          <Row>
+            <Col
+              id="login-section"
+              className="section-button px-5 py-2"
+              onClick={() => toggleMode("login")}
+            >
+              Login
+            </Col>
 
-          <Col
-            id="signup-section"
-            className="section-button px-5 py-2"
-            onClick={() => toggleMode("signup")}
-            style={{
-              backgroundColor: "#d8f8f3",
-              borderTopRightRadius: "0.8rem",
-              borderBottomLeftRadius: "0.8rem",
-            }}
-          >
-            Sign Up
-          </Col>
-        </Row>
+            <Col
+              id="signup-section"
+              className="section-button px-5 py-2"
+              onClick={() => toggleMode("signup")}
+              style={{
+                backgroundColor: "#d8f8f3",
+                borderTopRightRadius: "0.8rem",
+                borderBottomLeftRadius: "0.8rem",
+              }}
+            >
+              Sign Up
+            </Col>
+          </Row>
 
-        {mode === "login" && <LoginForm />}
-        {mode === "signup" && <SignUpForm />}
-      </Container>
-    </div>
+          {mode === "login" && <LoginForm />}
+          {mode === "signup" && <SignUpForm />}
+        </Container>
+      </div>
+    </>
   );
 }
