@@ -117,7 +117,7 @@ export default function Dashboard() {
                   getStarComponent(userData.rating)}
               </span> */}
               <br />
-              <button onClick={handleEditButton}>Edit</button>
+              <button className="editbtn" onClick={handleEditButton}>Edit Profile</button>
             </div>
           </div>
         </div>

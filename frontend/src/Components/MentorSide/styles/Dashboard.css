@@ -1,31 +1,44 @@
-.ProfileimgContainer{
-    margin-top: 1rem;
-    background-repeat: no-repeat;
-    background-image: url('../images/back.png');
-    border-radius: 1rem;
-    height: 13rem;
+.editbtn {
+  color: white;
+  background-color: #874c62;
+  border-radius: 8px;
+  border-radius: 15px;
+  border: none;
+  height: 2rem;
+  width: 8rem;
+}
+.editbtn:hover {
+  background-color: #c98474;
 }
 
-.profileimg{
-    margin-top: -.8rem;
-    width: 15rem;
-    border: 1rem solid white;
-    border-radius: 8rem;
-    box-shadow: 0 1rem 1rem rgb(103, 102, 102);
+.ProfileimgContainer {
+  margin-top: 1rem;
+  background-repeat: no-repeat;
+  background-image: url("../images/back.png");
+  border-radius: 1rem;
+  height: 13rem;
 }
 
-.DetailContainer{
-    margin-top: 1rem;
-    height: max-content;
-    border-radius: 1rem;
+.profileimg {
+  margin-top: -0.8rem;
+  width: 15rem;
+  border: 1rem solid white;
+  border-radius: 8rem;
+  box-shadow: 0 1rem 1rem rgb(103, 102, 102);
 }
-.heading{
-    margin-top: 3.5rem;
+
+.DetailContainer {
+  margin-top: 1rem;
+  height: max-content;
+  border-radius: 1rem;
 }
-.badgebox{
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+.heading {
+  margin-top: 3.5rem;
 }
-.footer{
-    margin-top: 1rem;
+.badgebox {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.footer {
+  margin-top: 1rem;
 }
