@@ -9,8 +9,7 @@ const fetchmentee = (req, res, next) => {
     // Get the authenticated token from the header having key: auth-token
     const authToken = req.header('auth-token');
     if (!authToken) {
-        res.json({ success, error: "Not valid Token" });
-        return
+        return res.json({ success, error: "Not valid Token" });
     }
 
     // Fetch data after verifying the token received from the user and fetch the data(body) from token
@@ -20,7 +19,7 @@ const fetchmentee = (req, res, next) => {
         next();
     } catch (err) {
         const msg = err.message.split(":").at(-1).trim()
-        res.json({ success, error: msg });
+        return res.json({ success, error: msg });
     }
 
 }

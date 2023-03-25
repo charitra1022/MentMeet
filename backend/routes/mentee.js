@@ -155,8 +155,8 @@ router.get('/get-mentee-details', fetchmentee,
             const { id } = req.mentee
             const mentee = await Mentee.findById(id).select("-password");
 
-            if(!mentee) {
-                return res.json({success, msg:"mentee not found"})
+            if (!mentee) {
+                return res.json({ success, msg: "mentee not found" })
             }
 
             return res.json({ success: true, mentee });
@@ -224,12 +224,19 @@ router.get('/get-mentee-skills', fetchmentee,
 
 
 
-// get the mentor for mentor dashboard
+// get the mentee for mentor dashboard
+// if id provided then get the details of that mentee
+// else list all the mentees
 router.get('/get-mentee', async (req, res) => {
     let success = false
     try {
         const { id } = req.headers
-        const mentee = await Mentee.findById(id)
+        let mentee
+        if (id) {
+            mentee = await Mentee.findById(id)
+        } else {
+            mentee = await Mentee.find()
+        }
 
         if (!mentee) {
             return res.json({ success, msg: "mentee not found" })
@@ -243,6 +250,111 @@ router.get('/get-mentee', async (req, res) => {
         return res.json({ success, error: msg });
     }
 })
+
+
+
+// route for adding the to following list of the mentee
+// and then adding mentee to the followers list of the mentor
+router.post('/add-following-mentee', fetchmentee, async (req, res) => {
+    const { id } = req.mentee
+    const { mentor_id } = req.body
+
+    let _id = id
+    let success = false
+    try {
+        if (id === mentor_id) {
+            return res.json({ success, msg: "following and follower ids cannot be same" })
+        }
+
+        let result1 = await Mentee.findByIdAndUpdate(
+            { _id },
+            {
+                $addToSet: { "following": mentor_id }
+            },
+            { new: true }
+        )
+
+        if (!result1) {
+            return res.json({ success, msg: "following not added" })
+        }
+
+        let mentee_id = id
+        _id = mentor_id
+        let result2 = await Mentor.findByIdAndUpdate(
+            { _id },
+            {
+                $addToSet: { "followers": mentee_id }
+            },
+            { new: true }
+        )
+
+        if (!result2) {
+            return res.json({ success, msg: "followers not added" })
+        }
+
+        success = true;
+
+        // remove the result from response afterwards
+        result2.password = undefined
+        return res.json({ success, msg: "transaction done", result2 });
+    } catch (err) {
+        const msg = err.message.split(":").at(-1).trim()
+        return res.json({ success, error: msg });
+    }
+})
+
+
+
+// route for removing from the following list of the mentee
+// and then removing mentee from the followers list of the mentor
+router.post('/remove-following-mentee', fetchmentee, async (req, res) => {
+    const { id } = req.mentee
+    const { mentor_id } = req.body
+
+    let _id = id
+    let success = false
+    try {
+
+        if (id === mentor_id) {
+            return res.json({ success, msg: "following and follower ids cannot be same" })
+        }
+
+        let result1 = await Mentee.findByIdAndUpdate(
+            { _id },
+            {
+                $unset: { "following": mentor_id }
+            },
+            { new: true }
+        )
+
+        if (!result1) {
+            return res.json({ success, msg: "following not removed" })
+        }
+
+        let mentee_id = id
+        _id = mentor_id
+        let result2 = await Mentor.findByIdAndUpdate(
+            { _id },
+            {
+                $unset: { "followers": mentee_id }
+            },
+            { new: true }
+        )
+
+        if (!result2) {
+            return res.json({ success, msg: "followers not removed" })
+        }
+
+        // remove the result from response afterwards
+        success = true;
+        result2.password = undefined
+        return res.json({ success, msg: "transaction done", result1, result2 });
+    } catch (err) {
+        const msg = err.message.split(":").at(-1).trim()
+        return res.json({ success, error: msg });
+    }
+})
+
 
 // Export the module
 module.exports = router;
