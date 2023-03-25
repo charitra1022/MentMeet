@@ -27,11 +27,7 @@ router.post('/create-mentor',
         body("city", "Enter city name(min length: 3)").isLength({ min: 5 }),
         body("state", "Enter state name(min length: 3)").isLength({ min: 5 }),
         body("phone", "Enter valid phone number").isLength({ min: 10, max: 10 }),
-        body("password", "Password must be of minimum 5 length").isLength({ min: 5 }),
-        body("skills", "Enter valid skills(array)").isArray(),
-        body("rating", "Enter valid rating").isNumeric(),
-        body("company", "Enter valid company").isLength({ min: 3 }),
-        body("position", "Enter valid position").isLength({ min: 3 }),
+        body("password", "Password must be of minimum 5 length").isLength({ min: 5 })
     ],
     async (req, res) => {
         let success = false;
@@ -42,7 +38,7 @@ router.post('/create-mentor',
         }
 
         try {
-            const { name, email, city, state, skills, phone, description, rating, company, position, password } = req.body
+            const { name, email, city, state, phone, password } = req.body
 
             //  Check if email is already registered or not
             let mentor = await Mentor.findOne({ email });
@@ -60,12 +56,7 @@ router.post('/create-mentor',
                 email,
                 city,
                 state,
-                skills,
                 phone,
-                description,
-                rating,
-                company,
-                position,
                 password: secPassword
             });
 
@@ -189,9 +180,8 @@ router.post('/update-mentor-details',
                 return res.json({ success, error: "Email not Registered" });
             }
 
-            // Third way of Creating user using asynchronous function
             const result = await Mentor.findByIdAndUpdate(
-                { id },
+                { _id: id },
                 {
                     name,
                     email,
@@ -203,10 +193,13 @@ router.post('/update-mentor-details',
                     rating,
                     company,
                     position,
-                });
+                },
+                { new: true }
+            );
+            // new : true indicates to return the updated document
 
             success = true;
-            
+            result.password = undefined
             res.json({ success, result });
 
             // Catch Error if bad requests occured
