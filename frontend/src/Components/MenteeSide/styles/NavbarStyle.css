@@ -1,0 +1,55 @@
+.navcontainer {
+  background-color: #a7d2cb;
+}
+.chatbtn {
+  color: white;
+  background-color: #874c62;
+  border-radius: 8px;
+  border-radius: 15px;
+  border: none;
+  height: 2rem;
+  width: 5rem;
+}
+.chatbtn:hover {
+  background-color: #c98474;
+}
+
+.menteeloginbtn,
+.mentorloginbtn {
+  color: white;
+  background-color: #874c62;
+  border-radius: 8px;
+  border-radius: 15px;
+  border: none;
+  height: 2rem;
+  width: 9rem;
+}
+.menteeloginbtn:hover,
+.mentorloginbtn:hover {
+  background-color: #c98474;
+}
+
+.logoutbtn {
+  color: white;
+  margin-left: 1rem;
+  border-radius: 15px;
+  background-color: #874c62;
+  border: none;
+  height: 2rem;
+  width: 7rem;
+}
+.logoutbtn:hover {
+  background-color: #c98474;
+}
+
+@media screen and (max-width: 480px) {
+  .logoutbtn {
+    font-size: small;
+    width: 4rem;
+    margin-left: 0.8rem;
+  }
+  .chatbtn {
+    font-size: small;
+    width: 3rem;
+  }
+}
