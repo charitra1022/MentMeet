@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Badge, Container } from "react-bootstrap";
 import NavbarComponent from "./Navbar";
+import { useNavigate } from "react-router-dom";
+
 import profile from "./images/profile.png";
 import "./styles/Dashboard.css";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+  const [token, setToken] = useState(window.localStorage.getItem("authToken"));
+
+  // redirect to login page if not logged in
+  useEffect(() => {
+    if (token === null) navigate("/login");
+  }, [token]);
+
   return (
     <>
       <NavbarComponent />
