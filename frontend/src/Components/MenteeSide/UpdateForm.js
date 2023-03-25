@@ -75,28 +75,28 @@ export default function UpdateForm() {
       skills: skill.split(","),
     };
 
-    // axios
-    //   .post("http://localhost:5000/update-mentor-details", data, {
-    //     headers: { "auth-token": token },
-    //   })
-    //   .then((res) => {
-    //     const data = res.data;
-    //     console.log(data);
+    axios
+      .post("http://localhost:5000/update-mentee-details", data, {
+        headers: { "auth-token": token },
+      })
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
 
-    //     setProcessing(false); // hide spinner and show submit button
+        setProcessing(false); // hide spinner and show submit button
 
-    //     if (data["success"]) {
-    //       setErrorStatus(false); // hide error
-    //       navigate("/dashboard-mentor");
-    //     } else {
-    //       setErrorStatus(true); // show error
-    //       if (data["error"] !== undefined) setErrorMsg(data["error"]);
-    //       else setErrorMsg(data["errors"][0]["msg"]);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+        if (data["success"]) {
+          setErrorStatus(false); // hide error
+          navigate("/dashboard-mentee");
+        } else {
+          setErrorStatus(true); // show error
+          if (data["error"] !== undefined) setErrorMsg(data["error"]);
+          else setErrorMsg(data["errors"][0]["msg"]);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
