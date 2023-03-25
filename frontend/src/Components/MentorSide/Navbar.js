@@ -10,7 +10,7 @@ export default function NavbarComponent(props) {
   // delete token and redirect to login page
   const handleLogOut = () => {
     window.localStorage.clear();
-    navigate("/login");
+    navigate("/login-mentor");
   };
 
   return (

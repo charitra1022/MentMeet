@@ -9,9 +9,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<div>Home</div>} />
-        <Route path="login" element={<LoginSignupComponent />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="update" element={<UpdateForm />} />
+        <Route path="login-mentor" element={<LoginSignupComponent />} />
+        <Route path="dashboard-mentor" element={<Dashboard />} />
+        <Route path="update-mentor" element={<UpdateForm />} />
       </Routes>
     </BrowserRouter>
   );

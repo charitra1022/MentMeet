@@ -24,12 +24,12 @@ export default function Dashboard() {
   const [dataLoading, setDataLoading] = useState(false);
 
   const handleEditButton = () => {
-    navigate("/update")
+    navigate("/update-mentor")
   };
 
   // redirect to login page if not logged in
   useEffect(() => {
-    if (token === null) navigate("/login");
+    if (token === null) navigate("/login-mentor");
   }, [token]);
 
   // fetch user data

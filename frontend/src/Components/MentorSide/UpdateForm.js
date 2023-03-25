@@ -35,7 +35,7 @@ export default function UpdateForm() {
 
   // redirect to login page if not logged in
   useEffect(() => {
-    if (token === null) navigate("/login");
+    if (token === null) navigate("/login-mentor");
   }, [token]);
 
   // fetch user data
@@ -96,7 +96,7 @@ export default function UpdateForm() {
 
         if (data["success"]) {
           setErrorStatus(false); // hide error
-          navigate("/dashboard");
+          navigate("/dashboard-mentor");
         } else {
           setErrorStatus(true); // show error
           if (data["error"] !== undefined) setErrorMsg(data["error"]);

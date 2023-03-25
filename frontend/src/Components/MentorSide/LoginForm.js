@@ -37,7 +37,7 @@ export default function LoginForm() {
         if (data["success"]) {
           setErrorStatus(false); // hide error
           window.localStorage.setItem("authToken", data["authToken"]); // save authtoken
-          navigate("/dashboard");
+          navigate("/dashboard-mentor");
         } else {
           setErrorStatus(true); // show error
           if (data["error"] !== undefined) setErrorMsg(data["error"]);
@@ -51,6 +51,7 @@ export default function LoginForm() {
 
   return (
     <Form className="p-5" onSubmit={handleSubmit}>
+      <h2 className="text-center">Mentor</h2>
       {errorStatus && (
         <Alert
           key="danger"
