@@ -32,7 +32,7 @@ export default function LoginSignupComponent() {
 
   return (
     <>
-      <NavbarComponent isLoginPage={true} />
+      <NavbarComponent isLoginPage={true} showMenteeLogin={true} />
       <div className="login-page">
         <Container className="login-container">
           <Row>

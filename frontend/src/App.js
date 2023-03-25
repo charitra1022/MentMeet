@@ -1,5 +1,5 @@
 import "./App.css";
-import LoginSignupComponent from "./Components/MentorSide/LoginSignupPage";
+import LoginSignupMentor from "./Components/MentorSide/LoginSignupPage";
 import Dashboard from "./Components/MentorSide/Dashboard";
 import UpdateForm from "./Components/MentorSide/UpdateForm";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -9,7 +9,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<div>Home</div>} />
-        <Route path="login-mentor" element={<LoginSignupComponent />} />
+        <Route path="login-mentor" element={<LoginSignupMentor />} />
         <Route path="dashboard-mentor" element={<Dashboard />} />
         <Route path="update-mentor" element={<UpdateForm />} />
       </Routes>

@@ -13,6 +13,16 @@ export default function NavbarComponent(props) {
     navigate("/login-mentor");
   };
 
+  // handle mentee login button
+  const handleMenteeLogin = () => {
+    navigate("/login-mentee");
+  };
+
+  // handle mentor login button
+  const handleMentorLogin = () => {
+    navigate("/login-mentor");
+  };
+
   return (
     <Navbar className="navcontainer">
       <Container>
@@ -23,6 +33,21 @@ export default function NavbarComponent(props) {
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar className="justify-content-end">
+          {props.showMenteeLogin && (
+            <Navbar.Text>
+              <button className="menteeloginbtn" onClick={handleMenteeLogin}>
+                Mentee Login
+              </button>
+            </Navbar.Text>
+          )}
+          {props.showMentorLogin && (
+            <Navbar.Text>
+              <button className="menteeloginbtn" onClick={handleMentorLogin}>
+                Mentor Login
+              </button>
+            </Navbar.Text>
+          )}
+
           {props.isLoginPage !== true && (
             <Navbar.Text>
               <button className="chatbtn">Chat</button>

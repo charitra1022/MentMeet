@@ -14,6 +14,21 @@
   background-color: #c98474;
 }
 
+.menteeloginbtn,
+.mentorloginbtn {
+  color: white;
+  background-color: #874c62;
+  border-radius: 8px;
+  border-radius: 15px;
+  border: none;
+  height: 2rem;
+  width: 9rem;
+}
+.menteeloginbtn:hover,
+.mentorloginbtn:hover {
+  background-color: #c98474;
+}
+
 .logoutbtn {
   color: white;
   margin-left: 1rem;
