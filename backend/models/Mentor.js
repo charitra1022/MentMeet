@@ -33,7 +33,6 @@ const MentorSchema = new Schema({
     },
     skills: {
         type: Array,
-        required: false,
     },
     phone: {
         type: String,
@@ -41,18 +40,15 @@ const MentorSchema = new Schema({
     },
     rating: {
         type: Number,
-        required: true
     },
     description: {
         type: String,
     },
     company: {
         type: String,
-        required: true
     },
     position: {
         type: String,
-        required: true
     },
     password: {
         type: String,

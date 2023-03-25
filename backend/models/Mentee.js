@@ -33,7 +33,6 @@ const MenteeSchema = new Schema({
     },
     skills: {
         type: Array,
-        required: false,
     },
     phone: {
         type: String,
