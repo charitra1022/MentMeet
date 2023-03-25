@@ -17,7 +17,6 @@ const AUTH_KEY = "MYNameISRahul@6820";
 
 const fetchmentee = require('../middleware/fetchMentee.js');
 
-
 // Create new mentee using POST: '/create-mentee' endpoint : No Login Required
 // Route 1: router.post(path, array of validators or without array both will work, callback(req, res));
 router.post('/create-mentee',
@@ -82,15 +81,12 @@ router.post('/create-mentee',
             success = true;
             // to remove the password
             mentee.password = undefined
-            res.json({ success, mentee, authToken });
-
-            // Need to send response else the client would keep on waiting. Not needed when authToken is being sended
-            // res.json(user);
+            return res.json({ success, mentee, authToken });
 
             // Catch Error if bad requests occured
         } catch (err) {
-            console.error(err.message);
-            res.status(500).json({ success, error: "Internal Server Error" });
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     });
 
@@ -140,30 +136,33 @@ router.post('/login-mentee',
             success = true;
             // to remove the password
             mentee.password = undefined
-            res.json({ success, mentee, authToken });
-
-            // Need to send response else the client would keep on waiting. Not needed when authToken is being sended
-            // res.json(user);
+            return res.json({ success, mentee, authToken });
 
             // Catch Error if bad requests occured
         } catch (err) {
-            console.error(err.message);
-            res.status(500).send({ success, msg: "Internal Server Error" });
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     })
 
 
 // Check Token using POST: '/check-mentee' endpoint : Login Required
 // Route 3: router.post(path, array of validators or without array both will work, callback(req, res));
-router.get('/check-mentee', fetchmentee,
+router.get('/get-mentee-details', fetchmentee,
     async (req, res) => {
+        let success = false
         try {
             const { id } = req.mentee
             const mentee = await Mentee.findById(id).select("-password");
-            res.send({ success: true, mentee });
+
+            if(!mentee) {
+                return res.json({success, msg:"mentee not found"})
+            }
+
+            return res.json({ success: true, mentee });
         } catch (err) {
-            console.error(err.message);
-            res.status(500).send("Internal Server Error");
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     });
 
@@ -176,16 +175,25 @@ router.get('/list-mentor', fetchmentee,
         let success = false
         try {
             const { id } = req.mentee
-            const record = await Mentee.findById(id).select("skills");
-            const skills = record.skills
+            const mentee = await Mentee.findById(id).select("skills");
+
+            if (!mentee) {
+                return res.json({ success, msg: "mentee not found" })
+            }
+
+            const skills = mentee.skills
 
             const mentors = await Mentor.find({ skills: { $in: skills } }).select("-password -__v")
 
-            res.send({ success: true, msg: "fetching mentors successful", mentors })
+            if (!mentors) {
+                return res.json({ success, msg: "mentor not found" })
+            }
+
+            return res.json({ success: true, msg: "fetching mentors successful", mentors })
 
         } catch (err) {
-            console.error(err.message);
-            res.status(500).send({ success, msg: "Internal Server Error" });
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     });
 
@@ -198,16 +206,43 @@ router.get('/get-mentee-skills', fetchmentee,
         let success = false
         try {
             const { id } = req.mentee
-            const record = await Mentee.findById(id).select("skills");
-            const skills = record.skills
+            const mentee = await Mentee.findById(id).select("skills");
 
-            res.send({ success: true, msg: "fetching mentee skills successful", skills })
+            if (!mentee) {
+                return res.json({ success, msg: "mentee not found" })
+            }
+
+            const skills = mentee.skills
+
+            return res.json({ success: true, msg: "fetching mentee skills successful", skills })
 
         } catch (err) {
-            console.error(err.message);
-            res.status(500).send({ success, msg: "Internal Server Error" });
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     });
+
+
+
+// get the mentor for mentor dashboard
+router.get('/get-mentee', async (req, res) => {
+    let success = false
+    try {
+        const { id } = req.headers
+        const mentee = await Mentee.findById(id)
+
+        if (!mentee) {
+            return res.json({ success, msg: "mentee not found" })
+        }
+
+        mentee.password = undefined
+        success = true
+        return res.json({ success, mentee })
+    } catch (err) {
+        const msg = err.message.split(":").at(-1).trim()
+        return res.json({ success, error: msg });
+    }
+})
 
 // Export the module
 module.exports = router;

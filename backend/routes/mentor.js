@@ -76,15 +76,15 @@ router.post('/create-mentor',
             success = true;
             // to remove the password
             mentor.password = undefined
-            res.json({ success, mentor, authToken });
+            return res.json({ success, mentor, authToken });
 
             // Need to send response else the client would keep on waiting. Not needed when authToken is being sended
             // res.json(user);
 
             // Catch Error if bad requests occured
         } catch (err) {
-            console.error(err.message);
-            res.status(500).json({ success, error: "Internal Server Error" });
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     });
 
@@ -134,15 +134,12 @@ router.post('/login-mentor',
             success = true;
             // to remove the password
             mentor.password = undefined
-            res.json({ success, mentor, authToken });
-
-            // Need to send response else the client would keep on waiting. Not needed when authToken is being sended
-            // res.json(user);
+            return res.json({ success, mentor, authToken });
 
             // Catch Error if bad requests occured
         } catch (err) {
-            console.error(err.message);
-            res.status(500).send({ success, msg: "Internal Server Error" });
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     })
 
@@ -200,12 +197,12 @@ router.post('/update-mentor-details',
 
             success = true;
             result.password = undefined
-            res.json({ success, result });
+            return res.json({ success, result });
 
             // Catch Error if bad requests occured
         } catch (err) {
-            console.error(err.message);
-            res.status(500).json({ success, error: "Internal Server Error" });
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     });
 
@@ -213,15 +210,20 @@ router.post('/update-mentor-details',
 
 // Check Token using POST: '/check-mentor' endpoint : Login Required
 // Route 3: router.post(path, array of validators or without array both will work, callback(req, res));
-router.get('/check-mentor', fetchmentor,
+router.get('/get-mentor-details', fetchmentor,
     async (req, res) => {
         try {
             const { id } = req.mentor
             const mentor = await Mentor.findById(id).select("-password");
-            res.send({ success: true, mentor });
+
+            if (!mentor) {
+                return res.json({ success, msg: "mentor not found" })
+            }
+
+            return res.json({ success: true, mentor });
         } catch (err) {
-            console.error(err.message);
-            res.status(500).send("Internal Server Error");
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     });
 
@@ -236,14 +238,18 @@ router.get('/get-mentor-skills', fetchmentor,
         let success = false
         try {
             const { id } = req.mentor
-            const record = await Mentor.findById(id).select("skills");
-            const skills = record.skills
+            const mentor = await Mentor.findById(id).select("skills");
 
-            res.send({ success: true, msg: "fetching mentor skills successful", skills })
+            if (!mentor) {
+                return res.json({ success, msg: "mentor not found" })
+            }
 
+            const skills = mentor.skills
+
+            return res.json({ success: true, msg: "fetching mentor skills successful", skills })
         } catch (err) {
-            console.error(err.message);
-            res.status(500).send({ success, msg: "Internal Server Error" });
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     });
 
@@ -272,6 +278,9 @@ router.post('/update-mentor-password', fetchmentor,
             const secPassword = await bcrypt.hash(password, salt);
 
             let mentor = await Mentor.findById(id)
+            if (!mentor) {
+                return res.json({ success, msg: "mentor not found" });
+            }
             const _id = mentor._id
 
             // Updating the mentor password
@@ -286,12 +295,12 @@ router.post('/update-mentor-password', fetchmentor,
             success = true;
             // to remove the password
             mentor.password = undefined
-            res.json({ success, msg: "password updated successfully", mentor });
+            return res.json({ success, msg: "password updated successfully", mentor });
 
             // Catch Error if bad requests occured
         } catch (err) {
-            console.error(err.message);
-            res.status(500).json({ success, error: "Internal Server Error" });
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     })
 
@@ -305,6 +314,11 @@ router.post('/add-mentor-skills', fetchmentor,
             const { id } = req.mentor
             const { skills } = req.body
             let mentor = await Mentor.findById(id)
+
+            if (!mentor) {
+                return res.json({ success, msg: "mentor not found" })
+            }
+
             const _id = mentor._id
 
             const result = await Mentor.updateOne(
@@ -313,13 +327,34 @@ router.post('/add-mentor-skills', fetchmentor,
             )
 
             success = true;
-            res.json({ success, msg: "skills updated", result });
+            return res.json({ success, msg: "skills updated", result });
         } catch (err) {
-            console.error(err.message);
-            res.status(500).json({ success, error: "Internal Server Error" });
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
         }
     }
 )
+
+
+// get the mentor for mentor dashboard
+router.get('/get-mentor', async (req, res) => {
+    let success = false
+    try {
+        const { id } = req.headers
+        const mentor = await Mentor.findById(id)
+
+        if (!mentor) {
+            return res.json({ success, msg: "mentor not found" })
+        }
+
+        mentor.password = undefined
+        success = true
+        return res.json({ success, mentor })
+    } catch (err) {
+        const msg = err.message.split(":").at(-1).trim()
+        return res.json({ success, error: msg });
+    }
+})
 
 // Export the module
 module.exports = router;
