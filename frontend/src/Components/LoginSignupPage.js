@@ -32,7 +32,7 @@ export default function LoginSignupComponent() {
 
   return (
     <>
-      <NavbarComponent />
+      <NavbarComponent isLoginPage={true} />
       <div className="login-page">
         <Container className="login-container">
           <Row>
