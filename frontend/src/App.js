@@ -1,8 +1,8 @@
 import "./App.css";
-import LoginSignupComponent from "./Components/LoginSignupPage";
-import Dashboard from "./Components/Dashboard";
+import LoginSignupComponent from "./Components/MentorSide/LoginSignupPage";
+import Dashboard from "./Components/MentorSide/Dashboard";
+import UpdateForm from "./Components/MentorSide/UpdateForm";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UpdateForm from "./Components/UpdateForm";
 
 function App() {
   return (
