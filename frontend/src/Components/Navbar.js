@@ -23,15 +23,14 @@ export default function NavbarComponent(props) {
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar className="justify-content-end">
-          <Navbar.Text>
-            <button className="chatbtn">Chat</button>
-
-            {props.isLoginPage !== true && (
+          {props.isLoginPage !== true && (
+            <Navbar.Text>
+              <button className="chatbtn">Chat</button>
               <button className="logoutbtn" onClick={handleLogOut}>
                 Logout
               </button>
-            )}
-          </Navbar.Text>
+            </Navbar.Text>
+          )}
         </Navbar>
       </Container>
     </Navbar>
