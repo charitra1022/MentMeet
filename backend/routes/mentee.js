@@ -18,7 +18,7 @@ const AUTH_KEY = "MYNameISRahul@6820";
 const fetchmentee = require('../middleware/fetchMentee.js');
 
 // Create new mentee using POST: '/create-mentee' endpoint : No Login Required
-// Route 1: router.post(path, array of validators or without array both will work, callback(req, res));
+// router.post(path, array of validators or without array both will work, callback(req, res));
 router.post('/create-mentee',
     // body(fieldname, errorMsg)
     [
@@ -32,7 +32,6 @@ router.post('/create-mentee',
     ],
     async (req, res) => {
         let success = false;
-        // res.json({name:"Rahul Maurya", age: 21});
 
         // check for errors in input
         const errors = validationResult(req);
@@ -65,6 +64,9 @@ router.post('/create-mentee',
                 password: secPassword
             });
 
+            if (!mentee) {
+                return res.json({ success, msg: "user not created" })
+            }
 
             // Generating new Token
             // Retrieving the unique id from database which is generated automatically by mongoDB
@@ -76,7 +78,6 @@ router.post('/create-mentee',
 
             // After successful registration authToken is generated and sended to user
             const authToken = jwt.sign(data, AUTH_KEY);
-            // console.log(authToken);
 
             success = true;
             // to remove the password
@@ -92,7 +93,7 @@ router.post('/create-mentee',
 
 
 //  Login mentee using POST: '/login' endpoint : No Login Required
-// Route 2: router.post(path, array of validators or without array both will work, callback(req, res));
+// router.post(path, array of validators or without array both will work, callback(req, res));
 router.post('/login-mentee',
     // body(fieldname, errorMsg)
     [
@@ -131,7 +132,6 @@ router.post('/login-mentee',
 
             // After successful login authToken is generated and sended to user
             const authToken = jwt.sign(data, AUTH_KEY);
-            // console.log(authToken);
 
             success = true;
             // to remove the password
@@ -147,7 +147,7 @@ router.post('/login-mentee',
 
 
 // Check Token using POST: '/check-mentee' endpoint : Login Required
-// Route 3: router.post(path, array of validators or without array both will work, callback(req, res));
+// router.post(path, array of validators or without array both will work, callback(req, res));
 router.get('/get-mentee-details', fetchmentee,
     async (req, res) => {
         let success = false
@@ -167,9 +167,68 @@ router.get('/get-mentee-details', fetchmentee,
     });
 
 
+// update mentee details
+router.post('/update-mentee-details',
+    // body(fieldname, errorMsg)
+    [
+        body("name", "Enter valid name").isLength({ min: 5 }),
+        body("city", "Enter city name(min length: 3)").isLength({ min: 5 }),
+        body("state", "Enter state name(min length: 3)").isLength({ min: 5 }),
+        body("phone", "Enter valid phone number").isLength({ min: 10, max: 10 }),
+        body("skills", "Enter valid skills(array)").isArray(),
+    ],
+    fetchmentee,
+    async (req, res) => {
+        let success = false;
+        // check for errors in input
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.json({ success, errors: errors.array() });
+        }
+
+        try {
+            const { name, city, state, skills, phone, description } = req.body
+            const { id } = req.mentee
+
+            //  Check if email is already registered or not
+            let mentee = await Mentee.findById(id);
+            if (!mentee) {
+                return res.json({ success, error: "Mentee not found" });
+            }
+
+            const result = await Mentee.findByIdAndUpdate(
+                { _id: id },
+                {
+                    name, 
+                    city, 
+                    state, 
+                    skills, 
+                    phone, 
+                    description
+                },
+                { new: true }
+            );
+            // new : true indicates to return the updated document
+
+            if (!result) {
+                return res.json({ success, msg: "Mentee details not updated" })
+            }
+
+            success = true;
+            result.password = undefined
+            return res.json({ success, result });
+
+            // Catch Error if bad requests occured
+        } catch (err) {
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
+        }
+    });
+
+
 // Check Token using POST: '/list-mentor' endpoint : Login Required
-// list mentors for the mentee for the skills he is requiring
-// Route 4: router.post(path, array of validators or without array both will work, callback(req, res));
+// list all mentors for the mentee for the skills he is requiring
+// router.post(path, array of validators or without array both will work, callback(req, res));
 router.get('/list-mentor', fetchmentee,
     async (req, res) => {
         let success = false
@@ -223,6 +282,40 @@ router.get('/get-mentee-skills', fetchmentee,
     });
 
 
+// adding more skills in mentee skillset
+router.post('/add-mentee-skills', fetchmentee,
+    async (req, res) => {
+        let success = false
+        try {
+            const { id } = req.mentee
+            const { skills } = req.body
+            let mentee = await Mentee.findById(id)
+
+            if (!mentee) {
+                return res.json({ success, msg: "mentee not found" })
+            }
+
+            const _id = mentee._id
+
+            const result = await Mentee.updateOne(
+                { _id },
+                { $addToSet: { skills: { $each: skills } } }
+            )
+
+            if (!result) {
+                return res.json({ success, msg: "skills not added" })
+            }
+
+            success = true;
+            return res.json({ success, msg: "mentee skills added", result });
+        } catch (err) {
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
+        }
+    }
+)
+
+
 
 // get the mentee for mentor dashboard
 // if id provided then get the details of that mentee
@@ -250,6 +343,62 @@ router.get('/get-mentee', async (req, res) => {
         return res.json({ success, error: msg });
     }
 })
+
+
+
+// api for updating the mentee password
+// login required
+router.post('/update-mentee-password', fetchmentee,
+    // body(fieldname, errorMsg)
+    [
+        body("password", "Password must be of minimum 5 length").isLength({ min: 5 })
+    ],
+    async (req, res) => {
+        let success = false;
+        // check for errors in input
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.json({ success, errors: errors.array() });
+        }
+
+        try {
+            const { password } = req.body
+            const { id } = req.mentee
+
+            // Encrypting the password
+            const salt = await bcrypt.genSalt(10);
+            const secPassword = await bcrypt.hash(password, salt);
+
+            let mentee = await Mentee.findById(id)
+            if (!mentee) {
+                return res.json({ success, msg: "mentor not found" });
+            }
+            const _id = mentee._id
+
+            // Updating the mentor password
+            mentee = await Mentee.updateOne({ _id },
+                {
+                    $set: {
+                        password: secPassword
+                    }
+                }
+            );
+
+            if (!mentee) {
+                return res.json({ success, msg: "password not updated" })
+            }
+
+            success = true;
+            // to remove the password
+            mentee.password = undefined
+            return res.json({ success, msg: "password updated successfully", mentee });
+
+            // Catch Error if bad requests occured
+        } catch (err) {
+            const msg = err.message.split(":").at(-1).trim()
+            return res.json({ success, error: msg });
+        }
+    })
 
 
 
@@ -288,6 +437,7 @@ router.post('/add-following-mentee', fetchmentee, async (req, res) => {
             { new: true }
         )
 
+        // need to revert the above changes if current operation fails
         if (!result2) {
             return res.json({ success, msg: "followers not added" })
         }
@@ -341,6 +491,7 @@ router.post('/remove-following-mentee', fetchmentee, async (req, res) => {
             { new: true }
         )
 
+        // need to revert the above changes if current operation fails
         if (!result2) {
             return res.json({ success, msg: "followers not removed" })
         }

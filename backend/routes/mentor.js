@@ -19,7 +19,7 @@ const Mentee = require('../models/Mentee');
 
 
 // Create new mentor using POST: '/create-mentor' endpoint : No Login Required
-// Route 1: router.post(path, array of validators or without array both will work, callback(req, res));
+// router.post(path, array of validators or without array both will work, callback(req, res));
 router.post('/create-mentor',
     // body(fieldname, errorMsg)
     [
@@ -62,6 +62,10 @@ router.post('/create-mentor',
             });
 
 
+            if (!mentor) {
+                return res.json({ success, msg: "user not created" })
+            }
+
             // Generating new Token
             // Retrieving the unique id from database which is generated automatically by mongoDB
             const data = {
@@ -91,7 +95,7 @@ router.post('/create-mentor',
 
 
 //  Login mentor using POST: '/login' endpoint : No Login Required
-// Route 2: router.post(path, array of validators or without array both will work, callback(req, res));
+// router.post(path, array of validators or without array both will work, callback(req, res));
 router.post('/login-mentor',
     // body(fieldname, errorMsg)
     [
@@ -146,7 +150,7 @@ router.post('/login-mentor',
 
 
 // update mentor details
-router.post('/update-mentor-details', 
+router.post('/update-mentor-details',
     // body(fieldname, errorMsg)
     [
         body("name", "Enter valid name").isLength({ min: 5 }),
@@ -154,6 +158,7 @@ router.post('/update-mentor-details',
         body("state", "Enter state name(min length: 3)").isLength({ min: 5 }),
         body("phone", "Enter valid phone number").isLength({ min: 10, max: 10 }),
         body("skills", "Enter valid skills(array)").isArray(),
+        body("rating", "Enter rating").isNumeric(),
         body("company", "Enter valid company").isLength({ min: 3 }),
         body("position", "Enter valid position").isLength({ min: 3 }),
     ],
@@ -167,7 +172,7 @@ router.post('/update-mentor-details',
         }
 
         try {
-            const { name, city, state, skills, phone, description, company, position } = req.body
+            const { name, city, state, skills, phone, description, rating, company, position } = req.body
             const { id } = req.mentor
 
             //  Check if email is already registered or not
@@ -185,12 +190,17 @@ router.post('/update-mentor-details',
                     skills,
                     phone,
                     description,
+                    rating,
                     company,
                     position,
                 },
                 { new: true }
             );
             // new : true indicates to return the updated document
+
+            if (!result) {
+                return res.json({ success, msg: "Mentor details not updated" })
+            }
 
             success = true;
             result.password = undefined
@@ -206,7 +216,7 @@ router.post('/update-mentor-details',
 
 
 // Check Token using POST: '/check-mentor' endpoint : Login Required
-// Route 3: router.post(path, array of validators or without array both will work, callback(req, res));
+// router.post(path, array of validators or without array both will work, callback(req, res));
 router.get('/get-mentor-details', fetchmentor,
     async (req, res) => {
         try {
@@ -227,7 +237,7 @@ router.get('/get-mentor-details', fetchmentor,
 
 // Check Token using POST: '/get-mentor-skills' endpoint : Login Required
 // list mentor skills
-// Route 4: router.post(path, array of validators or without array both will work, callback(req, res));
+// router.post(path, array of validators or without array both will work, callback(req, res));
 router.get('/get-mentor-skills', fetchmentor,
     async (req, res) => {
         let success = false
@@ -287,6 +297,10 @@ router.post('/update-mentor-password', fetchmentor,
                 }
             );
 
+            if (!mentor) {
+                return res.json({ success, msg: "password not updated" })
+            }
+
             success = true;
             // to remove the password
             mentor.password = undefined
@@ -321,8 +335,12 @@ router.post('/add-mentor-skills', fetchmentor,
                 { $addToSet: { skills: { $each: skills } } }
             )
 
+            if (!result) {
+                return res.json({ success, msg: "skills not added" })
+            }
+
             success = true;
-            return res.json({ success, msg: "skills updated", result });
+            return res.json({ success, msg: "mentor skill added", result });
         } catch (err) {
             const msg = err.message.split(":").at(-1).trim()
             return res.json({ success, error: msg });
@@ -395,6 +413,7 @@ router.post('/add-following-mentor', fetchmentor, async (req, res) => {
             { new: true }
         )
 
+        // need to revert the above changes if current operation fails
         if (!result2) {
             return res.json({ success, msg: "followers not added" })
         }
@@ -408,8 +427,6 @@ router.post('/add-following-mentor', fetchmentor, async (req, res) => {
         return res.json({ success, error: msg });
     }
 })
-
-
 
 
 // route for removing from the following list of the mentor
@@ -448,6 +465,7 @@ router.post('/remove-following-mentor', fetchmentor, async (req, res) => {
             { new: true }
         )
 
+        // need to revert the above changes if current operation fails
         if (!result2) {
             return res.json({ success, msg: "followers not removed" })
         }
