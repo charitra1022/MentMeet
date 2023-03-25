@@ -44,6 +44,12 @@ const MenteeSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    following: {
+        type: Array
+    },
+    followers: {
+        type: Array
     }
 });
 
