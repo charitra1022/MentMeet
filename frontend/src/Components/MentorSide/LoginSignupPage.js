@@ -17,7 +17,7 @@ export default function LoginSignupComponent() {
       setMode(mode);
       signupEl.style.borderTopRightRadius = "0.8rem";
       signupEl.style.borderBottomLeftRadius = "0.8rem";
-      signupEl.style.backgroundColor = "#d8f8f3";
+      signupEl.style.backgroundColor = "rgb(123, 196, 185)";
 
       loginEl.style.backgroundColor = "white";
       loginEl.style.borderTopLeftRadius = "0.8rem";
@@ -25,7 +25,7 @@ export default function LoginSignupComponent() {
       setMode(mode);
       signupEl.style.backgroundColor = "white";
 
-      loginEl.style.backgroundColor = "#d8f8f3";
+      loginEl.style.backgroundColor = "rgb(123, 196, 185)";
       loginEl.style.borderBottomRightRadius = "0.8rem";
     }
   };
@@ -49,7 +49,7 @@ export default function LoginSignupComponent() {
               className="section-button px-5 py-2"
               onClick={() => toggleMode("signup")}
               style={{
-                backgroundColor: "#d8f8f3",
+                backgroundColor: "rgb(123, 196, 185)",
                 borderTopRightRadius: "0.8rem",
                 borderBottomLeftRadius: "0.8rem",
               }}

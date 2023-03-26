@@ -23,6 +23,11 @@ export default function NavbarComponent(props) {
     navigate("/login-mentor");
   };
 
+  // handle chat button click
+  const handleChat = () => {
+    navigate("/chat");
+  };
+
   return (
     <Navbar className="navcontainer">
       <Container>
@@ -50,7 +55,7 @@ export default function NavbarComponent(props) {
 
           {props.isLoginPage !== true && (
             <Navbar.Text>
-              <button className="chatbtn">Chat</button>
+              <button className="chatbtn" onClick={handleChat}>Chat</button>
               <button className="logoutbtn" onClick={handleLogOut}>
                 Logout
               </button>

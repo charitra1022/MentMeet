@@ -8,13 +8,13 @@ import profile from "./images/profile.png";
 import "./styles/Dashboard.css";
 
 // get rating component
-// const getStarComponent = (count) => {
-//   let arr = [];
-//   for (let i = 1; i <= count; i++)
-//     arr.push(<span style={{ color: "gold" }}>✭</span>);
-//   for (let i = 1; i <= 5 - count; i++) arr.push(<span>☆</span>);
-//   return arr;
-// };
+const getStarComponent = (count) => {
+  let arr = [];
+  for (let i = 1; i <= count; i++)
+    arr.push(<span style={{ color: "gold" }}>✭</span>);
+  for (let i = 1; i <= 5 - count; i++) arr.push(<span>☆</span>);
+  return arr;
+};
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -111,11 +111,11 @@ export default function Dashboard() {
               </span>
               <br /> */}
               {/* star rating */}
-              {/* <span id="rating">
+              <span id="rating">
                 {!dataLoading &&
                   dataLoaded &&
-                  getStarComponent(userData.rating)}
-              </span> */}
+                  getStarComponent(4)}
+              </span>
               <br />
               <button className="editbtn" onClick={handleEditButton}>Edit Profile</button>
             </div>

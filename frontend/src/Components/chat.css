@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,300&display=swap');
+
+
+.navcontainer {
+    font-family: 'Kanit', sans-serif;
+    background-color: #A7D2CB;
+}
+
+.Dashboardbtn {
+    color: white;
+    background-color: #874C62;
+    border-radius: 8px;
+    border-radius: 15px;
+    border: none;
+    height: 2rem;
+    width: 6rem;
+}
+
+.Dashboardbtn:hover {
+    background-color: #C98474;
+}
+
+.logoutbtn {
+    color: white;
+    margin-left: 1rem;
+    border-radius: 15px;
+    background-color: #874C62;
+    border: none;
+    height: 2rem;
+    width: 7rem;
+}
+
+.logoutbtn:hover {
+    background-color: #C98474;
+}
+
+@media screen and (max-width: 480px) {
+    .logoutbtn {
+        font-size: small;
+        width: 4rem;
+        margin-left: .8rem;
+    }
+
+    .Dashboardbtn {
+        font-size: small;
+        width: 5rem;
+    }
+}
+.chatter{
+    border-radius: 10px;
+    overflow:hidden;
+    border: 2px solid black;
+}
+.profile-image {
+    margin-top: .1rem;
+    margin-left: .5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 40px;
+    border: 2px solid black;
+}
+
+.chat-panel{
+    margin-left: -.8rem;
+    margin-right: -.8rem;
+    background: #84c5ac;
+}
+.chat-block{
+    overflow-x: hidden;
+    height: 70vh;
+    overflow-y: scroll;
+}
+.settings-tray {
+    margin-left: -.8rem;
+    margin-right: -.735rem;
+    background: rgb(70, 122, 122);
+}
+.settings-tray .no-gutters {
+    padding: 0;
+}
+.user-header{
+    border-bottom: 2px solid black;
+    border-right: 1px solid black;
+}
+input {
+    border: none;
+    border-radius: 30px;
+    width: 80%;
+}
+
+input::placeholder {
+    color: #e3e3e3;
+    font-weight: 300;
+    margin-left: 20px;
+}
+
+input:focus {
+    outline: none;
+}
+.border-right{
+    color: wheat;
+    padding: 0;
+    background-color: #405e59;;
+    border-right: 2px solid black;
+    border-top:none;
+}
+.friend-drawer {
+    padding: 1rem;
+    display: flex;
+    vertical-align: baseline;
+    border-bottom: 2px solid black;
+}
+
+.friend-drawer-contact{
+    padding: 1rem;
+    display: flex;
+    margin-left: -1rem;
+    margin-right: -.8rem;
+    vertical-align: baseline;
+    border-bottom: 1px solid black;
+}
+
+.friend-drawer-contact .text {
+    margin-left: 20px;
+}
+.friend-drawer .text {
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+
+.friend-drawer--onhover:hover {
+    background: #6d6e6f;
+    cursor: pointer;
+}
+
+.chat-bubble {
+    padding: 3px 5px;
+    background: #eee;
+    margin: 10px 30px;
+    border-radius: 9px;
+    width: max-content;
+    position: relative;
+}
+@media screen and (max-width: 992px){
+    .chat-bubble{
+        font-size: smaller;
+        width: max-content;
+    }
+}
+.chat-bubble--right{
+    right: 1rem;
+    border-left-color: #74b9ff;
+    border-right: 0;
+}
+.offset-md-9 .chat-bubble {
+    background: #74b9ff;
+    color: black;
+}
+
+.chat-box-tray {
+    background: #84c5ac;
+    border-radius: 5px;
+    display: flex;
+    align-items: baseline;
+    padding: 10px 15px;
+    align-items: center;
+    margin-top: 19px;
+    margin-left: 1rem;
+    bottom: 0;
+}
+
+.chat-box-tray input {
+    border-radius: 10px;
+    padding: 6px 2px;
+}
+
+.sendbtn {
+    color: white;
+    margin-left: 1rem;
+    border-radius: 15px;
+    background-color: #874C62;
+    border: none;
+    height: 2rem;
+    width: 7rem;
+}
+.sendbtn:hover {
+    background-color: #C98474;
+}
+
+.chat-box-tray i:last-of-type {
+    margin-left: 25px;
+}

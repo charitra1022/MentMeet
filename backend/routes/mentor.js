@@ -220,6 +220,7 @@ router.post('/update-mentor-details',
 router.get('/get-mentor-details', fetchmentor,
     async (req, res) => {
         try {
+            let success = false;
             const { id } = req.mentor
             const mentor = await Mentor.findById(id).select("-password");
 

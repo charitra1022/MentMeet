@@ -26,6 +26,9 @@ export default function UpdateForm() {
   // const [pswd, setPassword] = useState("");
   // const [cfm_pswd, setConfirmPassword] = useState("");
 
+  // read-only states
+  const [rating, setRating] = useState(0);
+
   // states for displaying alert card
   const [errorStatus, setErrorStatus] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -59,7 +62,8 @@ export default function UpdateForm() {
         setPosition(data.position);
         setDescription(data.description);
         setSkill(data.skills.join(","));
-
+        if (data.rating !== undefined) setRating(data.rating);
+        
         setDataLoaded(true);
         setDataLoading(false);
         console.log(data);
@@ -82,6 +86,7 @@ export default function UpdateForm() {
       position: position,
       description: description,
       skills: skill.split(","),
+      rating: rating
     };
 
     axios
