@@ -9,6 +9,9 @@ Team Members:
 4. Yogesh Patel (React)
 
 
+[PPT Link](https://docs.google.com/presentation/d/1QgOv8iLS3Q8VhDDr3L7ntex7H1xfIe1y/edit?usp=share_link&ouid=118102121912706189671&rtpof=true&sd=true)
+
+
 
 ## What is MentMeet?
 A platform to create a **connection** between a **mentor** and a **mentee**, where a mentee gets full **guidance** from the mentor.
