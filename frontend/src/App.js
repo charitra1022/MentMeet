@@ -13,7 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<div>Home</div>} />
+        <Route path="/" element={<LoginSignupMentee />} />
         <Route path="login-mentor" element={<LoginSignupMentor />} />
         <Route path="login-mentee" element={<LoginSignupMentee />} />
 
