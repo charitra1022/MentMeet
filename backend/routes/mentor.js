@@ -219,8 +219,8 @@ router.post('/update-mentor-details',
 // router.post(path, array of validators or without array both will work, callback(req, res));
 router.get('/get-mentor-details', fetchmentor,
     async (req, res) => {
+        let success = false;
         try {
-            let success = false;
             const { id } = req.mentor
             const mentor = await Mentor.findById(id).select("-password");
 
