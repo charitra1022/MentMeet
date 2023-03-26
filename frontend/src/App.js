@@ -7,6 +7,8 @@ import DashboardMentee from "./Components/MenteeSide/Dashboard";
 
 import UpdateFormMentor from "./Components/MentorSide/UpdateForm";
 import UpdateFormMentee from "./Components/MenteeSide/UpdateForm";
+
+import Chat from "./Components/Chat";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
 
         <Route path="update-mentor" element={<UpdateFormMentor />} />
         <Route path="update-mentee" element={<UpdateFormMentee />} />
+
+        <Route path="chat" element={<Chat/>} />
       </Routes>
     </BrowserRouter>
   );
