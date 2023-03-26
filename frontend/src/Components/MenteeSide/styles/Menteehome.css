@@ -1,0 +1,102 @@
+.navcontainer {
+    background-color: #A7D2CB;
+}
+
+.dashboard-btn {
+    color: white;
+    margin-left: 1rem;
+    border-radius: 15px;
+    background-color: #874C62;
+    border: none;
+    height: 2rem;
+    width: 7rem;
+}
+
+.dashboard-btn:hover {
+    background-color: #C98474;
+}
+
+@media screen and (max-width: 480px) {
+    .dashboard-btn {
+        font-size: small;
+        width: 5rem;
+        margin-left: .8rem;
+    }
+}
+
+/*  */
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.flex-container-tab {
+    width: 90%;
+    margin: 10px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 75px;
+    font-size: 30px;
+    box-shadow: 0 .5rem .5rem gray;
+}
+
+/*  */
+
+
+/* Tasks */
+.card-header{
+    color: black;
+    background-color: rgb(219, 205, 187);
+}
+.card-head{
+    text-decoration: none;
+    color:black
+}
+.card{
+    box-shadow: 0 .5rem .5rem rgb(196, 194, 194);
+}
+.collapse-btn{
+    color: white;
+    margin-left: 1rem;
+    border-radius: 15px;
+    border: none;
+    height: 2rem;
+    width: 7rem;
+    background-color: rgb(245, 90, 90);
+}
+.collapse-btn.done{
+    background-color: greenyellow;
+    color :black;
+}
+.collapse-btn.open{
+    background-color:  rgb(189, 118, 26);
+}
+.collapse-btn.not-open{
+    background-color: rgb(245, 90, 90);
+}
+.collapse-btn:hover {
+    background-color: #C98474;
+}
+.collapse-text{
+    width: max-content;
+    margin-top: .5rem;
+    margin-left: 2rem;
+}
+.task-tab{
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 1px;
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
+.task-tab.open{
+    background-color: rgb(243, 173, 81);
+}
+.task-tab.notopen{
+    background-color: red;
+}
+.task-tab.done{
+    background-color: greenyellow;
+}
+/*  */
